@@ -7,6 +7,10 @@ class RecordProvider with ChangeNotifier {
 
   List<CustomRecord> get resources => _resources;
 
+  List<CustomRecord> get currentMonthRecords => _resources
+      .where((e) => e.createdAt.month == DateTime.now().month)
+      .toList();
+
   Future<void> createOne(CustomRecord record) async {
     _resources.add(record);
   }

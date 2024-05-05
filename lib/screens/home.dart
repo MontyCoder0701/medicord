@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'chart_list.dart';
 import 'record/record.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _mainScreens = [
     const RecordListScreen(),
-    const RecordListScreen(),
+    const ChartListScreen(),
   ];
 
   @override
