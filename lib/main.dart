@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'screens/record_create.screen.dart';
+import 'repositories/repositories.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalRepository.initialize();
 
   runApp(const MyApp());
 }
@@ -37,9 +41,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('MediCord'),
+        title: const Text('MediCord'),
       ),
-      body: Center(),
+      body: ListView(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+           Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const RecordCreateScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
