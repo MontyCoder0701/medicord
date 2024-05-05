@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/providers.dart';
 import 'chart_list.dart';
 import 'record/record.dart';
 
@@ -16,6 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
     const RecordListScreen(),
     const ChartListScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RecordProvider>().getMany();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

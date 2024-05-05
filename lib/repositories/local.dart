@@ -14,29 +14,11 @@ abstract class LocalRepository<T extends BaseModel> {
 
   static Future<void> initialize() async {
     final databasePath = await getDatabasesPath();
-    final path = join(databasePath, 'local.db');
+    final path = join(databasePath, 'temp.db');
     _instance = await openDatabase(
       path,
-      version: 2,
+      version: 1,
       onCreate: (Database db, int version) async {
-        await db.execute(
-          'CREATE TABLE record ('
-          'id INTEGER PRIMARY KEY,'
-          'createdAt DATETIME'
-          ')',
-        );
-        await db.execute(
-          'CREATE TABLE criterion ('
-          'id INTEGER PRIMARY KEY,'
-          'record_id INTEGER,'
-          'name TEXT,'
-          'value DECIMAL,'
-          'createdAt DATETIME,'
-          'FOREIGN KEY (record_id) REFERENCES record(id)'
-          ')',
-        );
-      },
-      onUpgrade: (Database db, int oldVersion, int newVersion) async {
         await db.execute(
           'CREATE TABLE temp ('
           'id INTEGER PRIMARY KEY,'

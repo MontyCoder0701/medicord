@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/models.dart';
+import '../repositories/repositories.dart';
 
 class RecordProvider with ChangeNotifier {
-  final List<CustomRecord> _resources = [];
+  final _repository = RecordRepository();
+  List<CustomRecord> _resources = [];
 
   List<CustomRecord> get resources => _resources;
 
@@ -11,9 +13,18 @@ class RecordProvider with ChangeNotifier {
       .where((e) => e.createdAt.month == DateTime.now().month)
       .toList();
 
-  Future<void> createOne(CustomRecord record) async {
-    _resources.add(record);
+  Future<void> getMany() async {
+    final result = await _repository.getMany();
+    _resources = result;
+    notifyListeners();
   }
 
-  Future<void> updateOne(CustomRecord record) async {}
+  Future<void> createOne(CustomRecord record) async {
+    final result = await _repository.createOne(record);
+    _resources.add(result);
+  }
+
+  void updateOne(CustomRecord record) {
+    _repository.updateOne(record);
+  }
 }
