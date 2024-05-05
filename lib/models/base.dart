@@ -5,5 +5,5 @@ abstract class BaseModel {
   int? id;
 
   @JsonKey(includeToJson: false)
-  DateTime? createdAt;
+  DateTime createdAt = DateTime.now();
 }

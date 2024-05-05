@@ -6,7 +6,7 @@ part of 'record.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Record _$RecordFromJson(Map<String, dynamic> json) => Record(
+CustomRecord _$CustomRecordFromJson(Map<String, dynamic> json) => CustomRecord(
       pcd: (json['pcd'] as num?)?.toDouble() ?? 0.0,
       ptbd: (json['ptbd'] as num?)?.toDouble() ?? 0.0,
       weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
@@ -15,11 +15,10 @@ Record _$RecordFromJson(Map<String, dynamic> json) => Record(
       memo: json['memo'] as String? ?? '',
     )
       ..id = (json['id'] as num?)?.toInt()
-      ..createdAt = json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String);
+      ..createdAt = DateTime.parse(json['createdAt'] as String);
 
-Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
+Map<String, dynamic> _$CustomRecordToJson(CustomRecord instance) =>
+    <String, dynamic>{
       'pcd': instance.pcd,
       'ptbd': instance.ptbd,
       'weight': instance.weight,

@@ -5,7 +5,7 @@ import 'base.dart';
 part 'record.g.dart';
 
 @JsonSerializable()
-class Record extends BaseModel {
+class CustomRecord extends BaseModel {
   @JsonKey()
   double pcd;
 
@@ -24,7 +24,7 @@ class Record extends BaseModel {
   @JsonKey()
   String memo;
 
-  Record({
+  CustomRecord({
     this.pcd = 0.0,
     this.ptbd = 0.0,
     this.weight = 0.0,
@@ -33,7 +33,8 @@ class Record extends BaseModel {
     this.memo = '',
   });
 
-  factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
+  factory CustomRecord.fromJson(Map<String, dynamic> json) =>
+      _$CustomRecordFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RecordToJson(this);
+  Map<String, dynamic> toJson() => _$CustomRecordToJson(this);
 }
