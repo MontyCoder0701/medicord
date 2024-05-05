@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../helpers/helpers.dart';
 import '../providers/providers.dart';
 import 'record_create.screen.dart';
+import 'record_detail.screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,6 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text('체온: ${record.temp}'),
               ],
             ),
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecordDetailScreen(record: record),
+                ),
+              );
+              setState(() {});
+            },
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),

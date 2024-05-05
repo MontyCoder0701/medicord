@@ -10,4 +10,6 @@ class RecordProvider with ChangeNotifier {
   Future<void> createOne(CustomRecord record) async {
     _resources.add(record);
   }
+
+  Future<void> updateOne(CustomRecord record) async {}
 }
