@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../helpers/helpers.dart';
-import '../providers/providers.dart';
-import 'record_create.screen.dart';
-import 'record_detail.screen.dart';
+import 'record/record.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +10,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final _recordProvider = context.read<RecordProvider>();
+  int _selectedIndex = 0;
+  final List<Widget> _mainScreens = [
+    const RecordListScreen(),
+    const RecordListScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -23,46 +23,22 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('MediCord'),
       ),
-      body: ListView.separated(
-        itemCount: _recordProvider.resources.length,
-        itemBuilder: (BuildContext context, int index) {
-          final record = _recordProvider.resources[index];
-          return ListTile(
-            title: Text(formatDate(record.createdAt)),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('PCD: ${record.pcd}'),
-                Text('PTBD: ${record.ptbd}'),
-                Text('몸무게: ${record.weight}'),
-                Text('혈압: ${record.bp}'),
-                Text('체온: ${record.temp}'),
-              ],
-            ),
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RecordDetailScreen(record: record),
-                ),
-              );
-              setState(() {});
-            },
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const RecordCreateScreen(),
-            ),
-          );
-          setState(() {});
-        },
-        child: const Icon(Icons.add),
+      body: _mainScreens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.medical_services_outlined),
+            label: '기록',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.trending_up),
+            label: '그래프',
+          ),
+        ],
+        onTap: (index) => setState(() {
+          _selectedIndex = index;
+        }),
       ),
     );
   }

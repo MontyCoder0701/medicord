@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/models.dart';
-import '../providers/providers.dart';
+import '../../models/models.dart';
+import '../../providers/providers.dart';
 
-class RecordDetailScreen extends StatefulWidget {
-  final CustomRecord record;
-
-  const RecordDetailScreen({required this.record, super.key});
+class RecordCreateScreen extends StatefulWidget {
+  const RecordCreateScreen({super.key});
 
   @override
-  State<RecordDetailScreen> createState() => _RecordDetailScreenState();
+  State<RecordCreateScreen> createState() => _RecordCreateScreenState();
 }
 
-class _RecordDetailScreenState extends State<RecordDetailScreen> {
+class _RecordCreateScreenState extends State<RecordCreateScreen> {
   late final _recordProvider = context.read<RecordProvider>();
 
+  final _record = CustomRecord();
   final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('기록 상세'),
+        title: const Text('새 기록 생성'),
         actions: [
           IconButton(
             onPressed: () {
@@ -31,7 +30,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               }
 
               _key.currentState!.save();
-              _recordProvider.updateOne(widget.record);
+              _recordProvider.createOne(_record);
 
               if (context.mounted) {
                 Navigator.pop(context);
@@ -50,9 +49,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               child: Column(
                 children: [
                   TextFormField(
-                    initialValue: widget.record.pcd.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.pcd = double.parse(v!),
+                    onSaved: (v) => _record.pcd = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'PCD',
@@ -65,9 +63,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.ptbd.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.ptbd = double.parse(v!),
+                    onSaved: (v) => _record.ptbd = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'PTBD',
@@ -80,9 +77,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.weight.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.weight = double.parse(v!),
+                    onSaved: (v) => _record.weight = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '몸무게',
@@ -95,9 +91,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.bp.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.bp = double.parse(v!),
+                    onSaved: (v) => _record.bp = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '혈압',
@@ -110,9 +105,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.temp.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.temp = double.parse(v!),
+                    onSaved: (v) => _record.temp = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '체온',
@@ -125,9 +119,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.memo.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.memo = v!,
+                    onSaved: (v) => _record.memo = v!,
                     decoration: const InputDecoration(labelText: '메모'),
                     maxLines: 5,
                     keyboardType: TextInputType.multiline,

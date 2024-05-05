@@ -1,1 +1,1 @@
-export 'record_create.screen.dart';
+export 'record/record_create.screen.dart';
