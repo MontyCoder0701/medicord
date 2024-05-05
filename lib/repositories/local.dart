@@ -17,7 +17,7 @@ abstract class LocalRepository<T extends BaseModel> {
     final path = join(databasePath, 'local.db');
     _instance = await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         await db.execute(
           'CREATE TABLE record ('
@@ -33,6 +33,20 @@ abstract class LocalRepository<T extends BaseModel> {
           'value DECIMAL,'
           'createdAt DATETIME,'
           'FOREIGN KEY (record_id) REFERENCES record(id)'
+          ')',
+        );
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        await db.execute(
+          'CREATE TABLE temp ('
+          'id INTEGER PRIMARY KEY,'
+          'pcd DECIMAL,'
+          'ptbd DECIMAL,'
+          'weight DECIMAL,'
+          'bp DECIMAL,'
+          'temp DECIMAL,'
+          'memo TEXT,'
+          'createdAt DATETIME'
           ')',
         );
       },
