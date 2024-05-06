@@ -25,7 +25,7 @@ class _ChartListScreenState extends State<ChartListScreen> {
             children: [
               const Text('이번달 추세'),
               const SizedBox(height: 10.0),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -35,33 +35,21 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('PCD'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.pcd,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: 'PCD',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.pcd,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -71,33 +59,21 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('PTBD'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.ptbd,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: 'PTBD',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.ptbd,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -107,33 +83,21 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('몸무게'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.weight,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: '몸무게',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.weight,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -143,33 +107,21 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('최고 혈압'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.bpMax,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: '최고 혈압',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.bpMax,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -179,33 +131,21 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('최저 혈압'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.bpMin,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: '최저 혈압',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.bpMin,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-              InkWell(
+              _buildChart(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -215,34 +155,62 @@ class _ChartListScreenState extends State<ChartListScreen> {
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    const Text('체온'),
-                    AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: const LineTouchData(enabled: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: _recordProvider.currentMonthRecords
-                                  .map(
-                                    (e) => FlSpot(
-                                      e.createdAt.day.toDouble(),
-                                      e.temp,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                title: '체온',
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _recordProvider.currentMonthRecords
+                        .map(
+                          (e) => FlSpot(
+                            e.createdAt.day.toDouble(),
+                            e.temp,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChart({
+    required Function() onTap,
+    required String title,
+    required List<LineChartBarData> lineBarsData,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: Column(
+          children: [
+            Text(title),
+            AspectRatio(
+              aspectRatio: 2.5,
+              child: LineChart(
+                LineChartData(
+                  titlesData: const FlTitlesData(
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                      ),
+                    ),
+                  ),
+                  lineTouchData: const LineTouchData(enabled: false),
+                  lineBarsData: lineBarsData,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
