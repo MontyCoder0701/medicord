@@ -15,6 +15,7 @@ class RecordListScreen extends StatefulWidget {
 
 class _RecordListScreenState extends State<RecordListScreen> {
   late final _recordProvider = context.read<RecordProvider>();
+  late final _theme = Theme.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,20 @@ class _RecordListScreenState extends State<RecordListScreen> {
                 Text('PCD: ${record.pcd}'),
                 Text('PTBD: ${record.ptbd}'),
                 Text('몸무게: ${record.weight}'),
-                Text('혈압: ${record.bpMax} / ${record.bpMin}'),
-                Text('체온: ${record.temp}'),
+                Text(
+                  '혈압: ${record.bpMax} / ${record.bpMin}',
+                  style: TextStyle(
+                    color:
+                        record.isBpAbnormal ? _theme.colorScheme.error : null,
+                  ),
+                ),
+                Text(
+                  '체온: ${record.temp}',
+                  style: TextStyle(
+                    color:
+                        record.isTempAbnormal ? _theme.colorScheme.error : null,
+                  ),
+                ),
               ],
             ),
             onTap: () async {

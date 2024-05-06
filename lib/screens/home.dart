@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
-import 'chart_list.dart';
+import 'chart/chart.dart';
 import 'record/record.dart';
 
 class HomeScreen extends StatefulWidget {

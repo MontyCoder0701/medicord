@@ -15,6 +15,7 @@ class RecordDetailScreen extends StatefulWidget {
 
 class _RecordDetailScreenState extends State<RecordDetailScreen> {
   late final _recordProvider = context.read<RecordProvider>();
+  late final _theme = Theme.of(context);
 
   final _key = GlobalKey<FormState>();
 
@@ -95,6 +96,11 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
+                    style: TextStyle(
+                      color: widget.record.isBpMaxAbnormal
+                          ? _theme.colorScheme.error
+                          : null,
+                    ),
                     initialValue: widget.record.bpMax.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => widget.record.bpMax = double.parse(v!),
@@ -110,6 +116,11 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
+                    style: TextStyle(
+                      color: widget.record.isBpMinAbnormal
+                          ? _theme.colorScheme.error
+                          : null,
+                    ),
                     initialValue: widget.record.bpMin.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => widget.record.bpMin = double.parse(v!),
@@ -125,6 +136,11 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
+                    style: TextStyle(
+                      color: widget.record.isTempAbnormal
+                          ? _theme.colorScheme.error
+                          : null,
+                    ),
                     initialValue: widget.record.temp.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => widget.record.temp = double.parse(v!),
