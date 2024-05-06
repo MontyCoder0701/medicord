@@ -14,7 +14,7 @@ abstract class LocalRepository<T extends BaseModel> {
 
   static Future<void> initialize() async {
     final databasePath = await getDatabasesPath();
-    final path = join(databasePath, 'temp.db');
+    final path = join(databasePath, 'temp2.db');
     _instance = await openDatabase(
       path,
       version: 1,
@@ -25,7 +25,8 @@ abstract class LocalRepository<T extends BaseModel> {
           'pcd DECIMAL,'
           'ptbd DECIMAL,'
           'weight DECIMAL,'
-          'bp DECIMAL,'
+          'bpMax DECIMAL,'
+          'bpMin DECIMAL,'
           'temp DECIMAL,'
           'memo TEXT,'
           'createdAt DATETIME'

@@ -24,13 +24,13 @@ class _RecordCreateScreenState extends State<RecordCreateScreen> {
         title: const Text('새 기록 생성'),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               if (!_key.currentState!.validate()) {
                 return;
               }
 
               _key.currentState!.save();
-              _recordProvider.createOne(_record);
+              await _recordProvider.createOne(_record);
 
               if (context.mounted) {
                 Navigator.pop(context);
@@ -90,19 +90,41 @@ class _RecordCreateScreenState extends State<RecordCreateScreen> {
                       return null;
                     },
                   ),
-                  TextFormField(
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.bp = double.parse(v!),
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: '혈압',
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return '필수 항목입니다';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          onSaved: (v) => _record.bpMax = double.parse(v!),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '최고 혈압',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '필수 항목입니다';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          onSaved: (v) => _record.bpMin = double.parse(v!),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '최저 혈압',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '필수 항목입니다';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   TextFormField(
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),

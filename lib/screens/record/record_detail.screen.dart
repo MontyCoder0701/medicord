@@ -95,12 +95,27 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
-                    initialValue: widget.record.bp.toString(),
+                    initialValue: widget.record.bpMax.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.bp = double.parse(v!),
+                    onSaved: (v) => widget.record.bpMax = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      labelText: '혈압',
+                      labelText: '최고혈압',
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return '필수 항목입니다';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    initialValue: widget.record.bpMin.toString(),
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    onSaved: (v) => widget.record.bpMin = double.parse(v!),
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: '최저혈압',
                     ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {

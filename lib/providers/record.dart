@@ -15,13 +15,14 @@ class RecordProvider with ChangeNotifier {
 
   Future<void> getMany() async {
     final result = await _repository.getMany();
+    result.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     _resources = result;
     notifyListeners();
   }
 
   Future<void> createOne(CustomRecord record) async {
     final result = await _repository.createOne(record);
-    _resources.add(result);
+    _resources.insert(0, result);
   }
 
   void updateOne(CustomRecord record) {

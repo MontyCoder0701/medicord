@@ -16,7 +16,10 @@ class CustomRecord extends BaseModel {
   double weight;
 
   @JsonKey()
-  double bp;
+  double bpMin;
+
+  @JsonKey()
+  double bpMax;
 
   @JsonKey()
   double temp;
@@ -28,7 +31,8 @@ class CustomRecord extends BaseModel {
     this.pcd = 0.0,
     this.ptbd = 0.0,
     this.weight = 0.0,
-    this.bp = 0.0,
+    this.bpMin = 0.0,
+    this.bpMax = 0.0,
     this.temp = 0.0,
     this.memo = '',
   });

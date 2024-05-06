@@ -31,7 +31,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
                 Text('PCD: ${record.pcd}'),
                 Text('PTBD: ${record.ptbd}'),
                 Text('몸무게: ${record.weight}'),
-                Text('혈압: ${record.bp}'),
+                Text('혈압: ${record.bpMax} / ${record.bpMin}'),
                 Text('체온: ${record.temp}'),
               ],
             ),

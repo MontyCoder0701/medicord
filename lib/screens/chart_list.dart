@@ -84,7 +84,7 @@ class _ChartListScreenState extends State<ChartListScreen> {
                   ),
                 ),
               ),
-              const Text('혈압'),
+              const Text('최고 혈압'),
               AspectRatio(
                 aspectRatio: 2,
                 child: LineChart(
@@ -95,7 +95,27 @@ class _ChartListScreenState extends State<ChartListScreen> {
                             .map(
                               (e) => FlSpot(
                                 e.createdAt.day.toDouble(),
-                                e.bp,
+                                e.bpMax,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Text('최고 혈압'),
+              AspectRatio(
+                aspectRatio: 2,
+                child: LineChart(
+                  LineChartData(
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: _recordProvider.currentMonthRecords
+                            .map(
+                              (e) => FlSpot(
+                                e.createdAt.day.toDouble(),
+                                e.bpMin,
                               ),
                             )
                             .toList(),
