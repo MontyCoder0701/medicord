@@ -7,7 +7,10 @@ class RecordProvider with ChangeNotifier {
   final _repository = RecordRepository();
   List<CustomRecord> _resources = [];
 
-  List<CustomRecord> get resources => _resources;
+  List<CustomRecord> get resources {
+    _resources.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return _resources;
+  }
 
   List<CustomRecord> get currentMonthRecords => _resources
       .where((e) => e.createdAt.month == DateTime.now().month)
@@ -15,14 +18,13 @@ class RecordProvider with ChangeNotifier {
 
   Future<void> getMany() async {
     final result = await _repository.getMany();
-    result.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     _resources = result;
     notifyListeners();
   }
 
   Future<void> createOne(CustomRecord record) async {
     final result = await _repository.createOne(record);
-    _resources.insert(0, result);
+    _resources.add(result);
   }
 
   void updateOne(CustomRecord record) {

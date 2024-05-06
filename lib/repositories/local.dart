@@ -43,12 +43,7 @@ abstract class LocalRepository<T extends BaseModel> {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    await _instance.execute(
-      'UPDATE $key SET createdAt = datetime(\'now\') WHERE id = $id',
-    );
-
     item.id = id;
-    item.createdAt = DateTime.now();
     return item;
   }
 

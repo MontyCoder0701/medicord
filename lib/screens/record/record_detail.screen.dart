@@ -17,6 +17,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
   late final _recordProvider = context.read<RecordProvider>();
   late final _theme = Theme.of(context);
 
+  late DateTime _createdAt = widget.record.createdAt;
   final _key = GlobalKey<FormState>();
 
   @override
@@ -32,6 +33,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               }
 
               _key.currentState!.save();
+              widget.record.createdAt = _createdAt;
               _recordProvider.updateOne(widget.record);
 
               if (context.mounted) {
@@ -50,6 +52,22 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               key: _key,
               child: Column(
                 children: [
+                  TextButton.icon(
+                    icon: const Icon(Icons.date_range),
+                    onPressed: () async {
+                      final DateTime? result = await showDatePicker(
+                        context: context,
+                        initialDate: _createdAt,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(3000),
+                      );
+
+                      if (result != null) {
+                        _createdAt = result;
+                      }
+                    },
+                    label: const Text('날짜 변경'),
+                  ),
                   TextFormField(
                     initialValue: widget.record.pcd.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),

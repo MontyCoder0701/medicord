@@ -48,6 +48,22 @@ class _RecordCreateScreenState extends State<RecordCreateScreen> {
               key: _key,
               child: Column(
                 children: [
+                  TextButton.icon(
+                    icon: const Icon(Icons.date_range),
+                    onPressed: () async {
+                      final DateTime? result = await showDatePicker(
+                        context: context,
+                        initialDate: _record.createdAt,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(3000),
+                      );
+
+                      if (result != null) {
+                        _record.createdAt = result;
+                      }
+                    },
+                    label: const Text('날짜 변경'),
+                  ),
                   TextFormField(
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => _record.pcd = double.parse(v!),

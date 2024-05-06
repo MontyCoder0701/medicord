@@ -20,6 +20,7 @@ CustomRecord _$CustomRecordFromJson(Map<String, dynamic> json) => CustomRecord(
 
 Map<String, dynamic> _$CustomRecordToJson(CustomRecord instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt.toIso8601String(),
       'pcd': instance.pcd,
       'ptbd': instance.ptbd,
       'weight': instance.weight,
