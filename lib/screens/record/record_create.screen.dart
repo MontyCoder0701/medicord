@@ -13,6 +13,7 @@ class RecordCreateScreen extends StatefulWidget {
 
 class _RecordCreateScreenState extends State<RecordCreateScreen> {
   late final _recordProvider = context.read<RecordProvider>();
+  late final _theme = Theme.of(context);
 
   final _record = CustomRecord();
   final _key = GlobalKey<FormState>();
@@ -157,6 +158,7 @@ class _RecordCreateScreenState extends State<RecordCreateScreen> {
                     },
                   ),
                   TextFormField(
+                    style: TextStyle(color: _theme.colorScheme.primary),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => _record.memo = v!,
                     decoration: const InputDecoration(labelText: '메모'),

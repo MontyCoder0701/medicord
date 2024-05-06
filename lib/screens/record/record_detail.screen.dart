@@ -27,14 +27,14 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
         title: const Text('기록 상세'),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               if (!_key.currentState!.validate()) {
                 return;
               }
 
               _key.currentState!.save();
               widget.record.createdAt = _createdAt;
-              _recordProvider.updateOne(widget.record);
+              await _recordProvider.updateOne(widget.record);
 
               if (context.mounted) {
                 Navigator.pop(context);
@@ -174,6 +174,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                   ),
                   TextFormField(
+                    style: TextStyle(color: _theme.colorScheme.primary),
                     initialValue: widget.record.memo.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     onSaved: (v) => widget.record.memo = v!,
@@ -181,12 +182,62 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     maxLines: 5,
                     keyboardType: TextInputType.multiline,
                   ),
+                  TextButton.icon(
+                    icon: Icon(
+                      Icons.delete_outline,
+                      color: _theme.colorScheme.error,
+                    ),
+                    onPressed: () => _handleDeleteDialogOpen(),
+                    label: Text(
+                      '삭제',
+                      style: TextStyle(
+                        color: _theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _handleDeleteDialogOpen() {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('기록 삭제'),
+          content: const Text(
+            '기록을 삭제하시겠습니까?\n'
+            '한번 삭제한 기록은 복구가 불가합니다.\n',
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                '삭제',
+                style: TextStyle(
+                  color: _theme.colorScheme.error,
+                ),
+              ),
+              onPressed: () {
+                _recordProvider.deleteOne(widget.record);
+
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                }
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

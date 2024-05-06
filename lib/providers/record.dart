@@ -27,7 +27,12 @@ class RecordProvider with ChangeNotifier {
     _resources.add(result);
   }
 
-  void updateOne(CustomRecord record) {
-    _repository.updateOne(record);
+  Future<void> updateOne(CustomRecord record) async {
+    await _repository.updateOne(record);
+  }
+
+  Future<void> deleteOne(CustomRecord record) async {
+    await _repository.deleteOne(record.id!);
+    _resources.remove(record);
   }
 }
