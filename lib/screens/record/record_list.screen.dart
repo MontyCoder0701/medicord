@@ -14,7 +14,7 @@ class RecordListScreen extends StatefulWidget {
 }
 
 class _RecordListScreenState extends State<RecordListScreen> {
-  late final _recordProvider = context.read<RecordProvider>();
+  late final _recordProvider = context.watch<RecordProvider>();
   late final _theme = Theme.of(context);
 
   @override
