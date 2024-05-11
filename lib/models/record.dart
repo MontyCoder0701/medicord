@@ -35,6 +35,10 @@ class CustomRecord extends BaseModel {
 
   bool get isTempAbnormal => temp >= 37.5;
 
+  bool get isPcdAbnormal => pcd < 20;
+
+  bool get isPtbdAbnormal => ptbd < 20;
+
   CustomRecord({
     this.pcd = 0.0,
     this.ptbd = 0.0,

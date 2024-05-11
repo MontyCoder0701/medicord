@@ -76,6 +76,11 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          style: TextStyle(
+                            color: widget.record.isPcdAbnormal
+                                ? _theme.colorScheme.error
+                                : null,
+                          ),
                           initialValue: widget.record.pcd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           onSaved: (v) => widget.record.pcd = double.parse(v!),
@@ -100,6 +105,11 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          style: TextStyle(
+                            color: widget.record.isPtbdAbnormal
+                                ? _theme.colorScheme.error
+                                : null,
+                          ),
                           initialValue: widget.record.ptbd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           onSaved: (v) => widget.record.ptbd = double.parse(v!),

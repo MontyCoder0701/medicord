@@ -29,8 +29,20 @@ class _RecordListScreenState extends State<RecordListScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('PCD: ${record.pcd}'),
-                Text('PTBD: ${record.ptbd}'),
+                Text(
+                  'PCD: ${record.pcd}',
+                  style: TextStyle(
+                    color:
+                        record.isPcdAbnormal ? _theme.colorScheme.error : null,
+                  ),
+                ),
+                Text(
+                  'PTBD: ${record.ptbd}',
+                  style: TextStyle(
+                    color:
+                        record.isPtbdAbnormal ? _theme.colorScheme.error : null,
+                  ),
+                ),
                 Text('몸무게: ${record.weight}'),
                 Text(
                   '혈압: ${record.bpMax} / ${record.bpMin}',
