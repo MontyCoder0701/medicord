@@ -36,11 +36,17 @@ class RecordProvider with ChangeNotifier {
     return events;
   }
 
-  List<CustomRecord> getRecordsByMonth(int month) {
-    return _resources.where((e) => e.createdAt.month == month).toList();
+  List<CustomRecord> getRecordsByMonth(DateTime dateTime) {
+    return _resources
+        .where(
+          (e) =>
+              e.createdAt.year == dateTime.year &&
+              e.createdAt.month == dateTime.month,
+        )
+        .toList();
   }
 
-  CustomRecord? getRecordByDateTime(DateTime dateTime) {
+  CustomRecord? getRecordByDay(DateTime dateTime) {
     return _resources.firstWhereOrNull(
       (e) =>
           e.createdAt.year == dateTime.year &&

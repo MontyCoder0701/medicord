@@ -24,7 +24,7 @@ class _StatScreenState extends State<StatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final records = _recordProvider.getRecordsByMonth(_focusedDay.month);
+    final records = _recordProvider.getRecordsByMonth(_focusedDay);
 
     return Scaffold(
       body: Column(
@@ -44,7 +44,7 @@ class _StatScreenState extends State<StatScreen> {
             eventLoader: (day) => _recordProvider.events[day] ?? [],
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: (selectedDay, focusedDay) {
-              final record = _recordProvider.getRecordByDateTime(selectedDay);
+              final record = _recordProvider.getRecordByDay(selectedDay);
               if (record != null) {
                 _handleRecordDetailDialogOpen(record);
               }
