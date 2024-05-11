@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers/helpers.dart';
 import '../../models/models.dart';
 import '../../providers/providers.dart';
 
@@ -22,6 +23,9 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final comparePcd = _recordProvider.comparePcd(widget.record);
+    final comparePtbd = _recordProvider.comparePtbd(widget.record);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('기록 상세'),
@@ -68,35 +72,53 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     },
                     label: const Text('날짜 변경'),
                   ),
-                  TextFormField(
-                    initialValue: widget.record.pcd.toString(),
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.pcd = double.parse(v!),
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'PCD',
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return '필수 항목입니다';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          initialValue: widget.record.pcd.toString(),
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          onSaved: (v) => widget.record.pcd = double.parse(v!),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: 'PCD',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '필수 항목입니다';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      if (comparePcd != null) ...{
+                        Icon(transformIntToIcon(comparePcd)),
+                      },
+                    ],
                   ),
-                  TextFormField(
-                    initialValue: widget.record.ptbd.toString(),
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.ptbd = double.parse(v!),
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'PTBD',
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return '필수 항목입니다';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          initialValue: widget.record.ptbd.toString(),
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          onSaved: (v) => widget.record.ptbd = double.parse(v!),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: 'PTBD',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return '필수 항목입니다';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      if (comparePtbd != null) ...{
+                        Icon(transformIntToIcon(comparePtbd)),
+                      },
+                    ],
                   ),
                   TextFormField(
                     initialValue: widget.record.weight.toString(),

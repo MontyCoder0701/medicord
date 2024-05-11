@@ -35,4 +35,36 @@ class RecordProvider with ChangeNotifier {
     await _repository.deleteOne(record.id!);
     _resources.remove(record);
   }
+
+  int? comparePcd(CustomRecord record) {
+    final currentIndex = resources.indexOf(record);
+    if (currentIndex == resources.length - 1) {
+      return null;
+    }
+
+    final previousRecord = resources[currentIndex + 1];
+    if (record.pcd > previousRecord.pcd) {
+      return 1;
+    } else if (record.pcd < previousRecord.pcd) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  int? comparePtbd(CustomRecord record) {
+    final currentIndex = resources.indexOf(record);
+    if (currentIndex == resources.length - 1) {
+      return null;
+    }
+
+    final previousRecord = resources[currentIndex + 1];
+    if (record.ptbd > previousRecord.ptbd) {
+      return 1;
+    } else if (record.ptbd < previousRecord.ptbd) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 }
