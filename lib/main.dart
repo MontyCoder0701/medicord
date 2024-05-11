@@ -24,11 +24,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final theme = Theme.of(context);
+
     return MaterialApp(
       title: 'MediCord',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        appBarTheme: AppBarTheme(color: theme.colorScheme.inversePrimary),
       ),
       home: const HomeScreen(),
     );

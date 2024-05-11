@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _mainScreens = [
     const RecordListScreen(),
-    const StatListScreen(),
+    const StatScreen(),
   ];
 
   @override
@@ -30,10 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('MediCord'),
-      ),
+      appBar: AppBar(title: const Text('MediCord')),
       body: _mainScreens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
