@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: '기록',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.trending_up),
-            label: '통계',
+            icon: Icon(Icons.calendar_month_outlined),
+            label: '달력',
           ),
         ],
         onTap: (index) => setState(() {

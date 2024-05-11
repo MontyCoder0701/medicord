@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../helpers/helpers.dart';
 import '../../models/models.dart';
 import '../../providers/providers.dart';
+import '../record/record.dart';
 
 class StatScreen extends StatefulWidget {
   const StatScreen({super.key});
@@ -138,6 +139,23 @@ class _StatScreenState extends State<StatScreen> {
               },
             ],
           ),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecordDetailScreen(record: record),
+                  ),
+                );
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.arrow_forward_outlined,
+              ),
+            ),
+          ],
         );
       },
     );
