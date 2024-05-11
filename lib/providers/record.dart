@@ -12,9 +12,13 @@ class RecordProvider with ChangeNotifier {
     return _resources;
   }
 
-  List<CustomRecord> get currentMonthRecords => _resources
-      .where((e) => e.createdAt.month == DateTime.now().month)
-      .toList();
+  List<int> get createdAtMonths {
+    return _resources.map((e) => e.createdAt.month).toSet().toList();
+  }
+
+  List<CustomRecord> getRecordsByMonth(int month) {
+    return _resources.where((e) => e.createdAt.month == month).toList();
+  }
 
   Future<void> getMany() async {
     final result = await _repository.getMany();

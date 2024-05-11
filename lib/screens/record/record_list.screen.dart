@@ -21,6 +21,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemCount: _recordProvider.resources.length,
         itemBuilder: (BuildContext context, int index) {
           final record = _recordProvider.resources[index];
@@ -77,7 +78,6 @@ class _RecordListScreenState extends State<RecordListScreen> {
             },
           );
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

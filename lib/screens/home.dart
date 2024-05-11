@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
-import 'chart/chart.dart';
 import 'record/record.dart';
+import 'stat/stat.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _mainScreens = [
     const RecordListScreen(),
-    const ChartListScreen(),
+    const StatListScreen(),
   ];
 
   @override
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.trending_up),
-            label: '그래프',
+            label: '통계',
           ),
         ],
         onTap: (index) => setState(() {
