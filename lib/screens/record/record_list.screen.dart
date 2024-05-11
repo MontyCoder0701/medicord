@@ -46,6 +46,12 @@ class _RecordListScreenState extends State<RecordListScreen> {
                         record.isTempAbnormal ? _theme.colorScheme.error : null,
                   ),
                 ),
+                if (record.memo.isNotEmpty) ...{
+                  Text(
+                    '메모: ${record.memo}',
+                    style: TextStyle(color: _theme.colorScheme.primary),
+                  ),
+                },
               ],
             ),
             onTap: () async {
