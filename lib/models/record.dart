@@ -27,6 +27,9 @@ class CustomRecord extends BaseModel {
   @JsonKey()
   String memo;
 
+  bool get isAbnormal =>
+      isBpAbnormal || isTempAbnormal || isPcdAbnormal || isPtbdAbnormal;
+
   bool get isBpAbnormal => isBpMaxAbnormal || isBpMinAbnormal;
 
   bool get isBpMinAbnormal => bpMin >= 100;

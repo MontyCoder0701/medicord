@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/models.dart';
@@ -12,12 +13,40 @@ class RecordProvider with ChangeNotifier {
     return _resources;
   }
 
-  List<int> get createdAtMonths {
-    return _resources.map((e) => e.createdAt.month).toSet().toList();
+  Map<DateTime, List<CustomRecord>> get events {
+    Map<DateTime, List<CustomRecord>> events = {};
+
+    List<CustomRecord> eventRecords =
+        _resources.where((record) => record.isAbnormal).toList();
+
+    for (CustomRecord record in eventRecords) {
+      DateTime dayKey = DateTime.utc(
+        record.createdAt.year,
+        record.createdAt.month,
+        record.createdAt.day,
+      );
+
+      if (events.containsKey(dayKey)) {
+        events[dayKey]!.add(record);
+      } else {
+        events[dayKey] = [record];
+      }
+    }
+
+    return events;
   }
 
   List<CustomRecord> getRecordsByMonth(int month) {
     return _resources.where((e) => e.createdAt.month == month).toList();
+  }
+
+  CustomRecord? getRecordByDateTime(DateTime dateTime) {
+    return _resources.firstWhereOrNull(
+      (e) =>
+          e.createdAt.year == dateTime.year &&
+          e.createdAt.month == dateTime.month &&
+          e.createdAt.day == dateTime.day,
+    );
   }
 
   Future<void> getMany() async {

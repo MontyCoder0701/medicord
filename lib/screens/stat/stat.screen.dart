@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../helpers/helpers.dart';
+import '../../models/models.dart';
 import '../../providers/providers.dart';
 
 class StatScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class StatScreen extends StatefulWidget {
 }
 
 class _StatScreenState extends State<StatScreen> {
+  late final _theme = Theme.of(context);
   late final _recordProvider = context.watch<RecordProvider>();
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -30,10 +33,21 @@ class _StatScreenState extends State<StatScreen> {
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
+            calendarStyle: const CalendarStyle(
+              markerSize: 7.0,
+              markerDecoration: BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+            ),
+            eventLoader: (day) => _recordProvider.events[day] ?? [],
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: (selectedDay, focusedDay) {
+              final record = _recordProvider.getRecordByDateTime(selectedDay);
+              if (record != null) {
+                _handleRecordDetailDialogOpen(record);
+              }
+
               if (!isSameDay(_selectedDay, selectedDay)) {
                 setState(() {
                   _selectedDay = selectedDay;
@@ -76,6 +90,56 @@ class _StatScreenState extends State<StatScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _handleRecordDetailDialogOpen(CustomRecord record) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(formatDate(record.createdAt)),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'PCD: ${record.pcd}',
+                style: TextStyle(
+                  color: record.isPcdAbnormal ? _theme.colorScheme.error : null,
+                ),
+              ),
+              Text(
+                'PTBD: ${record.ptbd}',
+                style: TextStyle(
+                  color:
+                      record.isPtbdAbnormal ? _theme.colorScheme.error : null,
+                ),
+              ),
+              Text('몸무게: ${record.weight}'),
+              Text(
+                '혈압: ${record.bpMax} / ${record.bpMin}',
+                style: TextStyle(
+                  color: record.isBpAbnormal ? _theme.colorScheme.error : null,
+                ),
+              ),
+              Text(
+                '체온: ${record.temp}',
+                style: TextStyle(
+                  color:
+                      record.isTempAbnormal ? _theme.colorScheme.error : null,
+                ),
+              ),
+              if (record.memo.isNotEmpty) ...{
+                Text(
+                  '메모: ${record.memo}',
+                  style: TextStyle(color: _theme.colorScheme.primary),
+                ),
+              },
+            ],
+          ),
+        );
+      },
     );
   }
 }
