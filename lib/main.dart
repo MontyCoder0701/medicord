@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'providers/providers.dart';
 import 'repositories/repositories.dart';
-import 'screens/home.dart';
+import 'screens/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     late final theme = Theme.of(context);
 
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: CustomRouter.getConfig(),
       title: 'MediCord',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         appBarTheme: AppBarTheme(color: theme.colorScheme.inversePrimary),
       ),
-      home: const HomeScreen(),
     );
   }
 }
