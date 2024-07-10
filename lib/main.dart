@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/providers.dart';
-import 'repositories/repositories.dart';
+import 'repositories/local.dart';
 import 'screens/router.dart';
 
 Future<void> main() async {
