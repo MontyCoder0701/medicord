@@ -14,12 +14,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final Future _future;
   late final recordProvider = context.read<RecordProvider>();
+
   int _selectedIndex = 0;
   final List<Widget> _mainScreens = [
     const RecordListScreen(),
     const StatScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _future = _initializeResources();
+  }
 
   Future<void> _initializeResources() async {
     recordProvider.getMany();
@@ -28,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initializeResources(),
+      future: _future,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SplashScreen();
