@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
-import 'record/record.dart';
 import 'splash.screen.dart';
-import 'stat/stat.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Widget child;
+
+  const HomeScreen({
+    required this.child,
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,12 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final Future _future;
   late final recordProvider = context.read<RecordProvider>();
-
-  int _selectedIndex = 0;
-  final List<Widget> _mainScreens = [
-    const RecordListScreen(),
-    const StatScreen(),
-  ];
+  late int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -31,6 +30,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _initializeResources() async {
     recordProvider.getMany();
+  }
+
+  void _handleTabSelect(int index) {
+    switch (index) {
+      case 0:
+        context.go('/record');
+        break;
+      case 1:
+        context.go('/stat');
+        break;
+    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -43,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           return Scaffold(
             appBar: AppBar(title: const Text('MediCord')),
-            body: _mainScreens[_selectedIndex],
+            body: widget.child,
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _selectedIndex,
               items: const [
@@ -56,9 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: '달력',
                 ),
               ],
-              onTap: (index) => setState(() {
-                _selectedIndex = index;
-              }),
+              onTap: (index) => _handleTabSelect(index),
             ),
           );
         }
