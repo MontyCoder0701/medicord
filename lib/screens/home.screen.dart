@@ -6,10 +6,10 @@ import '../providers/providers.dart';
 import 'splash.screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Widget child;
+  final StatefulNavigationShell shell;
 
   const HomeScreen({
-    required this.child,
+    required this.shell,
     super.key,
   });
 
@@ -32,18 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
     recordProvider.getMany();
   }
 
-  void _handleTabSelect(int index) {
-    switch (index) {
-      case 0:
-        context.go('/record');
-        break;
-      case 1:
-        context.go('/stat');
-        break;
-    }
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _goBranch(int index) {
+    setState(() => _selectedIndex = index);
+    widget.shell.goBranch(
+      index,
+      initialLocation: index == widget.shell.currentIndex,
+    );
   }
 
   @override
@@ -56,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           return Scaffold(
             appBar: AppBar(title: const Text('MediCord')),
-            body: widget.child,
+            body: widget.shell,
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _selectedIndex,
               items: const [
@@ -69,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: '달력',
                 ),
               ],
-              onTap: (index) => _handleTabSelect(index),
+              onTap: (index) => _goBranch(index),
             ),
           );
         }

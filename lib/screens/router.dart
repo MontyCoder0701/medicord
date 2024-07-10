@@ -8,25 +8,29 @@ import 'stat/stat.dart';
 class CustomRouter {
   static RouterConfig<RouteMatchList> getConfig() {
     final rootNavigatorKey = GlobalKey<NavigatorState>();
-    final shellNavigatorKey = GlobalKey<NavigatorState>();
 
     return GoRouter(
       initialLocation: '/record',
       navigatorKey: rootNavigatorKey,
       routes: <RouteBase>[
-        ShellRoute(
-          navigatorKey: shellNavigatorKey,
-          builder: (context, state, child) => HomeScreen(child: child),
-          routes: [
-            GoRoute(
-              path: '/record',
-              parentNavigatorKey: shellNavigatorKey,
-              builder: (context, state) => const RecordListScreen(),
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, shell) => HomeScreen(shell: shell),
+          branches: [
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/record',
+                  builder: (context, state) => const RecordListScreen(),
+                ),
+              ],
             ),
-            GoRoute(
-              path: '/stat',
-              parentNavigatorKey: shellNavigatorKey,
-              builder: (context, state) => const StatScreen(),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/stat',
+                  builder: (context, state) => const StatScreen(),
+                ),
+              ],
             ),
           ],
         ),
