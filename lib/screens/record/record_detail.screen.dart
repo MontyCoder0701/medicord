@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/helpers.dart';
-import '../../models/models.dart';
 import '../../providers/providers.dart';
 
 class RecordDetailScreen extends StatefulWidget {
-  final CustomRecord record;
+  final int recordId;
 
-  const RecordDetailScreen({required this.record, super.key});
+  const RecordDetailScreen({required this.recordId, super.key});
 
   @override
   State<RecordDetailScreen> createState() => _RecordDetailScreenState();
@@ -17,14 +16,15 @@ class RecordDetailScreen extends StatefulWidget {
 class _RecordDetailScreenState extends State<RecordDetailScreen> {
   late final _recordProvider = context.read<RecordProvider>();
   late final _theme = Theme.of(context);
+  late final _record = _recordProvider.findOne(id: widget.recordId);
 
-  late DateTime _createdAt = widget.record.createdAt;
+  late DateTime _createdAt = _record.createdAt;
   final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final comparePcd = _recordProvider.comparePcd(widget.record);
-    final comparePtbd = _recordProvider.comparePtbd(widget.record);
+    final comparePcd = _recordProvider.comparePcd(_record);
+    final comparePtbd = _recordProvider.comparePtbd(_record);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,8 +37,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               }
 
               _key.currentState!.save();
-              widget.record.createdAt = _createdAt;
-              await _recordProvider.updateOne(widget.record);
+              _record.createdAt = _createdAt;
+              await _recordProvider.updateOne(_record);
 
               if (context.mounted) {
                 Navigator.pop(context);
@@ -77,13 +77,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                       Expanded(
                         child: TextFormField(
                           style: TextStyle(
-                            color: widget.record.isPcdAbnormal
+                            color: _record.isPcdAbnormal
                                 ? _theme.colorScheme.error
                                 : null,
                           ),
-                          initialValue: widget.record.pcd.toString(),
+                          initialValue: _record.pcd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          onSaved: (v) => widget.record.pcd = double.parse(v!),
+                          onSaved: (v) => _record.pcd = double.parse(v!),
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'PCD',
@@ -106,13 +106,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                       Expanded(
                         child: TextFormField(
                           style: TextStyle(
-                            color: widget.record.isPtbdAbnormal
+                            color: _record.isPtbdAbnormal
                                 ? _theme.colorScheme.error
                                 : null,
                           ),
-                          initialValue: widget.record.ptbd.toString(),
+                          initialValue: _record.ptbd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          onSaved: (v) => widget.record.ptbd = double.parse(v!),
+                          onSaved: (v) => _record.ptbd = double.parse(v!),
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'PTBD',
@@ -131,9 +131,9 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     ],
                   ),
                   TextFormField(
-                    initialValue: widget.record.weight.toString(),
+                    initialValue: _record.weight.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.weight = double.parse(v!),
+                    onSaved: (v) => _record.weight = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '몸무게',
@@ -147,13 +147,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: widget.record.isBpMaxAbnormal
+                      color: _record.isBpMaxAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: widget.record.bpMax.toString(),
+                    initialValue: _record.bpMax.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.bpMax = double.parse(v!),
+                    onSaved: (v) => _record.bpMax = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '최고혈압',
@@ -167,13 +167,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: widget.record.isBpMinAbnormal
+                      color: _record.isBpMinAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: widget.record.bpMin.toString(),
+                    initialValue: _record.bpMin.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.bpMin = double.parse(v!),
+                    onSaved: (v) => _record.bpMin = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '최저혈압',
@@ -187,13 +187,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: widget.record.isTempAbnormal
+                      color: _record.isTempAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: widget.record.temp.toString(),
+                    initialValue: _record.temp.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.temp = double.parse(v!),
+                    onSaved: (v) => _record.temp = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '체온',
@@ -207,9 +207,9 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(color: _theme.colorScheme.primary),
-                    initialValue: widget.record.memo.toString(),
+                    initialValue: _record.memo.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => widget.record.memo = v!,
+                    onSaved: (v) => _record.memo = v!,
                     decoration: const InputDecoration(labelText: '메모'),
                     maxLines: 5,
                     keyboardType: TextInputType.multiline,
@@ -255,7 +255,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                 ),
               ),
               onPressed: () {
-                _recordProvider.deleteOne(widget.record);
+                _recordProvider.deleteOne(_record);
 
                 if (context.mounted) {
                   Navigator.pop(context);

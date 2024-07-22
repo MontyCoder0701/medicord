@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../models/models.dart';
 import '../repositories/repositories.dart';
 
-class RecordProvider with ChangeNotifier {
+class RecordCrudProvider with ChangeNotifier {
   final _repository = RecordRepository();
   List<CustomRecord> _resources = [];
 
@@ -53,10 +53,6 @@ class RecordProvider with ChangeNotifier {
           e.createdAt.month == dateTime.month &&
           e.createdAt.day == dateTime.day,
     );
-  }
-
-  CustomRecord findOne({required int id}) {
-    return _resources.firstWhere((e) => e.id == id);
   }
 
   Future<void> getMany() async {

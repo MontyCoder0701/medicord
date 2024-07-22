@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/helpers.dart';
 import '../../providers/providers.dart';
 import 'record_create.screen.dart';
-import 'record_detail.screen.dart';
 
 class RecordListScreen extends StatefulWidget {
   const RecordListScreen({super.key});
@@ -68,12 +68,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
               ],
             ),
             onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RecordDetailScreen(record: record),
-                ),
-              );
+              await context.push('/record/${record.id}');
               setState(() {});
             },
           );

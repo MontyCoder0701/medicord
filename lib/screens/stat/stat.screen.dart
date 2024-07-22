@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../helpers/helpers.dart';
 import '../../models/models.dart';
 import '../../providers/providers.dart';
-import '../record/record.dart';
 
 class StatScreen extends StatefulWidget {
   const StatScreen({super.key});
@@ -143,12 +143,7 @@ class _StatScreenState extends State<StatScreen> {
             IconButton(
               onPressed: () async {
                 Navigator.pop(context);
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecordDetailScreen(record: record),
-                  ),
-                );
+                await context.push('/record/${record.id}');
                 setState(() {});
               },
               icon: const Icon(

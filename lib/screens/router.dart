@@ -21,6 +21,14 @@ class CustomRouter {
                 GoRoute(
                   path: '/record',
                   builder: (context, state) => const RecordListScreen(),
+                  routes: [
+                    GoRoute(
+                      path: ':recordId',
+                      builder: (context, state) => RecordDetailScreen(
+                        recordId: int.parse(state.pathParameters['recordId']!),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
