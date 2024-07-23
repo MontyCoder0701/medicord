@@ -12,7 +12,7 @@ class RecordCreateScreen extends StatefulWidget {
 }
 
 class _RecordCreateScreenState extends State<RecordCreateScreen> {
-  late final _recordProvider = context.read<RecordProvider>();
+  late final _recordProvider = context.read<RecordListProvider>();
   late final _theme = Theme.of(context);
 
   final _record = CustomRecord();

@@ -16,7 +16,7 @@ class StatScreen extends StatefulWidget {
 
 class _StatScreenState extends State<StatScreen> {
   late final _theme = Theme.of(context);
-  late final _recordProvider = context.watch<RecordProvider>();
+  late final _recordProvider = context.watch<RecordListProvider>();
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();

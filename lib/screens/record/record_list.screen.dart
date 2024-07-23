@@ -14,7 +14,7 @@ class RecordListScreen extends StatefulWidget {
 }
 
 class _RecordListScreenState extends State<RecordListScreen> {
-  late final _recordProvider = context.watch<RecordProvider>();
+  late final _recordProvider = context.watch<RecordListProvider>();
   late final _theme = Theme.of(context);
 
   @override
@@ -68,8 +68,9 @@ class _RecordListScreenState extends State<RecordListScreen> {
               ],
             ),
             onTap: () async {
+              final recordProvider = context.read<RecordListProvider>();
               await context.push('/record/${record.id}');
-              setState(() {});
+              recordProvider.getMany();
             },
           );
         },

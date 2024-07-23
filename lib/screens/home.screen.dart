@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final Future _future;
-  late final recordProvider = context.read<RecordProvider>();
+  late final recordProvider = context.read<RecordListProvider>();
   late int _selectedIndex = 0;
 
   @override

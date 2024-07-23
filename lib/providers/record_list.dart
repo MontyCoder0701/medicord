@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../models/models.dart';
 import '../repositories/repositories.dart';
 
-class RecordProvider with ChangeNotifier {
+class RecordListProvider with ChangeNotifier {
   final _repository = RecordRepository();
   List<CustomRecord> _resources = [];
 

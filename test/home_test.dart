@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:medicord/providers/record.dart';
+import 'package:medicord/providers/record_list.dart';
 import 'package:medicord/repositories/local.dart';
 import 'package:medicord/screens/record/record_create.screen.dart';
 import 'package:medicord/screens/record/record_list.screen.dart';
@@ -20,7 +20,7 @@ Future<void> main() async {
   Widget createTestApp() {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RecordProvider()),
+        ChangeNotifierProvider(create: (_) => RecordListProvider()),
       ],
       child: MaterialApp.router(
         routerConfig: CustomRouter.getConfig(),

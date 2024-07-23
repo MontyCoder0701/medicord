@@ -16,7 +16,12 @@ class CustomRouter {
       navigatorKey: rootNavigatorKey,
       routes: <RouteBase>[
         StatefulShellRoute.indexedStack(
-          builder: (context, state, shell) => HomeScreen(shell: shell),
+          builder: (context, state, shell) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => RecordListProvider()),
+            ],
+            child: HomeScreen(shell: shell),
+          ),
           branches: [
             StatefulShellBranch(
               routes: [
