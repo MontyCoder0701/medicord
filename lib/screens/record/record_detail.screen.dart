@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/helpers.dart';
+import '../../models/models.dart';
 import '../../providers/providers.dart';
 
 class RecordDetailScreen extends StatefulWidget {
@@ -14,17 +16,36 @@ class RecordDetailScreen extends StatefulWidget {
 }
 
 class _RecordDetailScreenState extends State<RecordDetailScreen> {
-  late final _recordProvider = context.read<RecordProvider>();
   late final _theme = Theme.of(context);
-  late final _record = _recordProvider.findOne(id: widget.recordId);
+  late final _recordProvider = context.watch<RecordDetailProvider>();
 
-  late DateTime _createdAt = _record.createdAt;
+  CustomRecord? get _record => _recordProvider.resources.firstOrNull;
+
   final _key = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final recordProvider = context.read<RecordDetailProvider>();
+      recordProvider.getOne(id: widget.recordId);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final comparePcd = _recordProvider.comparePcd(_record);
-    final comparePtbd = _recordProvider.comparePtbd(_record);
+    if (_record == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final record = _record!;
+    DateTime createdAt = record.createdAt;
+    final comparePcd = _recordProvider.comparePcd(record);
+    final comparePtbd = _recordProvider.comparePtbd(record);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,8 +58,10 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
               }
 
               _key.currentState!.save();
-              _record.createdAt = _createdAt;
-              await _recordProvider.updateOne(_record);
+              record.createdAt = createdAt;
+
+              final recordProvider = context.read<RecordDetailProvider>();
+              await recordProvider.updateOne(record);
 
               if (context.mounted) {
                 Navigator.pop(context);
@@ -61,13 +84,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     onPressed: () async {
                       final DateTime? result = await showDatePicker(
                         context: context,
-                        initialDate: _createdAt,
+                        initialDate: createdAt,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(3000),
                       );
 
                       if (result != null) {
-                        _createdAt = result;
+                        createdAt = result;
                       }
                     },
                     label: const Text('날짜 변경'),
@@ -77,13 +100,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                       Expanded(
                         child: TextFormField(
                           style: TextStyle(
-                            color: _record.isPcdAbnormal
+                            color: record.isPcdAbnormal
                                 ? _theme.colorScheme.error
                                 : null,
                           ),
-                          initialValue: _record.pcd.toString(),
+                          initialValue: record.pcd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          onSaved: (v) => _record.pcd = double.parse(v!),
+                          onSaved: (v) => record.pcd = double.parse(v!),
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'PCD',
@@ -106,13 +129,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                       Expanded(
                         child: TextFormField(
                           style: TextStyle(
-                            color: _record.isPtbdAbnormal
+                            color: record.isPtbdAbnormal
                                 ? _theme.colorScheme.error
                                 : null,
                           ),
-                          initialValue: _record.ptbd.toString(),
+                          initialValue: record.ptbd.toString(),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          onSaved: (v) => _record.ptbd = double.parse(v!),
+                          onSaved: (v) => record.ptbd = double.parse(v!),
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'PTBD',
@@ -131,9 +154,9 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                     ],
                   ),
                   TextFormField(
-                    initialValue: _record.weight.toString(),
+                    initialValue: record.weight.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.weight = double.parse(v!),
+                    onSaved: (v) => record.weight = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '몸무게',
@@ -147,13 +170,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: _record.isBpMaxAbnormal
+                      color: record.isBpMaxAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: _record.bpMax.toString(),
+                    initialValue: record.bpMax.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.bpMax = double.parse(v!),
+                    onSaved: (v) => record.bpMax = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '최고혈압',
@@ -167,13 +190,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: _record.isBpMinAbnormal
+                      color: record.isBpMinAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: _record.bpMin.toString(),
+                    initialValue: record.bpMin.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.bpMin = double.parse(v!),
+                    onSaved: (v) => record.bpMin = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '최저혈압',
@@ -187,13 +210,13 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(
-                      color: _record.isTempAbnormal
+                      color: record.isTempAbnormal
                           ? _theme.colorScheme.error
                           : null,
                     ),
-                    initialValue: _record.temp.toString(),
+                    initialValue: record.temp.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.temp = double.parse(v!),
+                    onSaved: (v) => record.temp = double.parse(v!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: '체온',
@@ -207,9 +230,9 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                   ),
                   TextFormField(
                     style: TextStyle(color: _theme.colorScheme.primary),
-                    initialValue: _record.memo.toString(),
+                    initialValue: record.memo.toString(),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    onSaved: (v) => _record.memo = v!,
+                    onSaved: (v) => record.memo = v!,
                     decoration: const InputDecoration(labelText: '메모'),
                     maxLines: 5,
                     keyboardType: TextInputType.multiline,
@@ -219,7 +242,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                       Icons.delete_outline,
                       color: _theme.colorScheme.error,
                     ),
-                    onPressed: () => _handleDeleteDialogOpen(),
+                    onPressed: () => _handleDeleteDialogOpen(record),
                     label: Text(
                       '삭제',
                       style: TextStyle(
@@ -236,7 +259,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
     );
   }
 
-  Future<void> _handleDeleteDialogOpen() {
+  Future<void> _handleDeleteDialogOpen(CustomRecord record) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -255,7 +278,8 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
                 ),
               ),
               onPressed: () {
-                _recordProvider.deleteOne(_record);
+                final recordProvider = context.read<RecordDetailProvider>();
+                recordProvider.deleteOne(record);
 
                 if (context.mounted) {
                   Navigator.pop(context);

@@ -47,6 +47,12 @@ abstract class LocalRepository<T extends BaseModel> {
     return item;
   }
 
+  Future<T> getOne({required int id}) async {
+    final List<Map<String, dynamic>> maps =
+        await _instance.query(key, where: 'id = $id');
+    return fromJson(maps[0]);
+  }
+
   Future<List<T>> getMany() async {
     final List<Map<String, dynamic>> maps = await _instance.query(key);
     return List.generate(maps.length, (index) => fromJson(maps[index]));

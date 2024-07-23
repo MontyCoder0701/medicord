@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/providers.dart';
 import 'home.screen.dart';
 import 'record/record.dart';
 import 'stat/stat.dart';
@@ -24,8 +26,12 @@ class CustomRouter {
                   routes: [
                     GoRoute(
                       path: ':recordId',
-                      builder: (context, state) => RecordDetailScreen(
-                        recordId: int.parse(state.pathParameters['recordId']!),
+                      builder: (context, state) => ChangeNotifierProvider(
+                        create: (_) => RecordDetailProvider(),
+                        child: RecordDetailScreen(
+                          recordId:
+                              int.parse(state.pathParameters['recordId']!),
+                        ),
                       ),
                     ),
                   ],
