@@ -15,11 +15,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-
       - name: set up java
         uses: actions/setup-java@v4
         with:
@@ -34,7 +29,6 @@ jobs:
       - name: refresh flutter packages
         run: flutter clean && flutter pub get
 
-      ## TODO: ios 서명 추가 및 fastlane으로 빌드
       - name: build ios app with flutter
         run: flutter build ios --no-codesign
 
